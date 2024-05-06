@@ -1,13 +1,71 @@
 package co.edu.uniquindio.model;
 
-import co.edu.uniquindio.model.estructurasDeDatos.ListaDoblementeEnlazada;
+import jakarta.persistence.*;
 
+
+@Entity
+@Table (name = "AUTHOR")
 public class Author {
-    private String code;
-    private String name;//The name of the author shall NOT be repeated
-    private String nationality;
-    private boolean isGroup;
-    private ListaDoblementeEnlazada<Song> songs;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "nationality")
+    private String nationality;
+
+    @Column(name = "is_grupo_musical")
+    private boolean isGroup;
+
+
+
+    public Author(String code, String name, String nationality, boolean isGroup) {
+        this.code = code;
+        this.name = name;
+        this.nationality = nationality;
+        this.isGroup = isGroup;
+    }
+
+    public Author() {
+
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
+    }
 
 }
