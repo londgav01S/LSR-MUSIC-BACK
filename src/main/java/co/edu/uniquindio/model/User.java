@@ -1,12 +1,12 @@
 package co.edu.uniquindio.model;
 
-import co.edu.uniquindio.model.estructurasDeDatos.RoundList;
+import co.edu.uniquindio.model.estructurasDeDatos.ListaDoblementeEnlazada;
 
 public class User {
     private String username;//The username shall NOT be repeated
     private String password;
     private String mail;
-    private RoundList<Song> songs;
+    private ListaDoblementeEnlazada<Song> songs;
 
     public String getUsername() {
         return username;
@@ -32,11 +32,11 @@ public class User {
         this.mail = mail;
     }
 
-    public RoundList<Song> getSongs() {
+    public ListaDoblementeEnlazada<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(RoundList<Song> songs) {
+    public void setSongs(ListaDoblementeEnlazada<Song> songs) {
         this.songs = songs;
     }
 }

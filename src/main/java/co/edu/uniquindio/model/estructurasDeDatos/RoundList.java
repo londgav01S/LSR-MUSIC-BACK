@@ -1,8 +1,8 @@
 package co.edu.uniquindio.model.estructurasDeDatos;
 
 public class RoundList <T>{
-    private NodoDobleEnlazado<T> primero;
-    private NodoDobleEnlazado<T> ultimo;
+    private NodoDoble<T> primero;
+    private NodoDoble<T> ultimo;
     private int size;
 
     public RoundList(){
@@ -12,60 +12,60 @@ public class RoundList <T>{
     }
 
     public void add(T cancion){
-        NodoDobleEnlazado<T> nuevo = new NodoDobleEnlazado<>(cancion);
+        NodoDoble<T> nuevo = new NodoDoble<>(cancion);
         if(primero == null){
             primero = nuevo;
             ultimo = nuevo;
-            primero.setSiguiente(primero);
-            primero.setAnterior(ultimo);
-            ultimo.setSiguiente(primero);
-            ultimo.setAnterior(ultimo);
+            primero.setSiguienteNodo(primero);
+            primero.setAnteriorNodo(ultimo);
+            ultimo.setSiguienteNodo(primero);
+            ultimo.setAnteriorNodo(ultimo);
         }else{
-            ultimo.setSiguiente(nuevo);
-            nuevo.setAnterior(ultimo);
-            nuevo.setSiguiente(primero);
-            primero.setAnterior(nuevo);
+            ultimo.setSiguienteNodo(nuevo);
+            nuevo.setAnteriorNodo(ultimo);
+            nuevo.setSiguienteNodo(primero);
+            primero.setAnteriorNodo(nuevo);
             ultimo = nuevo;
         }
         size++;
     }
 
     public void remove(T cancion){
-        NodoDobleEnlazado<T> actual = primero;
+        NodoDoble<T> actual = primero;
         for(int i = 0; i < size; i++){
-            if(actual.getCancion().equals(cancion)){
+            if(actual.getElemento().equals(cancion)){
                 if(actual == primero){
-                    primero = primero.getSiguiente();
-                    ultimo.setSiguiente(primero);
-                    primero.setAnterior(ultimo);
+                    primero = primero.getSiguienteNodo();
+                    ultimo.setSiguienteNodo(primero);
+                    primero.setAnteriorNodo(ultimo);
                 }else if(actual == ultimo){
-                    ultimo = ultimo.getAnterior();
-                    ultimo.setSiguiente(primero);
-                    primero.setAnterior(ultimo);
+                    ultimo = ultimo.getAnteriorNodo();
+                    ultimo.setSiguienteNodo(primero);
+                    primero.setAnteriorNodo(ultimo);
                 }else{
-                    actual.getAnterior().setSiguiente(actual.getSiguiente());
-                    actual.getSiguiente().setAnterior(actual.getAnterior());
+                    actual.getAnteriorNodo().setSiguienteNodo(actual.getSiguienteNodo());
+                    actual.getSiguienteNodo().setAnteriorNodo(actual.getAnteriorNodo());
                 }
                 size--;
                 break;
             }
-            actual = actual.getSiguiente();
+            actual = actual.getSiguienteNodo();
         }
     }
 
-    public NodoDobleEnlazado<T> getPrimero() {
+    public NodoDoble<T> getPrimero() {
         return primero;
     }
 
-    public void setPrimero(NodoDobleEnlazado<T> primero) {
+    public void setPrimero(NodoDoble<T> primero) {
         this.primero = primero;
     }
 
-    public NodoDobleEnlazado<T> getUltimo() {
+    public NodoDoble<T> getUltimo() {
         return ultimo;
     }
 
-    public void setUltimo(NodoDobleEnlazado<T> ultimo) {
+    public void setUltimo(NodoDoble<T> ultimo) {
         this.ultimo = ultimo;
     }
 

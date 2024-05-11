@@ -79,4 +79,13 @@ public class Album {
     public void setSongList(ArrayList<Song> songList) {
         this.songList = songList;
     }
+
+    @Override
+    public String toString() {
+        return "co.edu.uniquindio.model.Album{" +
+                "albumName='" + albumName + '\'' +
+                ", albumYear='" + albumYear + '\'' +
+                ", songList=" + songList +
+                '}';
+    }
 }

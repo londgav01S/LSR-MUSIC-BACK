@@ -2,25 +2,17 @@ package co.edu.uniquindio.model;
 
 import jakarta.persistence.*;
 
-
-@Entity
-@Table (name = "AUTHOR")
 public class Author {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
     private String code;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "nationality")
     private String nationality;
 
-    @Column(name = "is_grupo_musical")
+
     private boolean isGroup;
 
 
