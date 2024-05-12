@@ -1,42 +1,27 @@
 package co.edu.uniquindio.model;
 
-import co.edu.uniquindio.model.estructurasDeDatos.RoundList;
+import co.edu.uniquindio.model.estructurasDeDatos.List.RoundList;
+import lombok.*;
 
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 public class User {
+    @Setter(value = AccessLevel.PRIVATE)
+    @EqualsAndHashCode.Include
     private String username;//The username shall NOT be repeated
     private String password;
     private String mail;
+    @ToString.Exclude
     private RoundList<Song> songs;
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
+    @Builder
+    public User(String username, String password, String mail) {
+        super();
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public RoundList<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(RoundList<Song> songs) {
-        this.songs = songs;
+        this.songs = new RoundList<Song>();
     }
 }

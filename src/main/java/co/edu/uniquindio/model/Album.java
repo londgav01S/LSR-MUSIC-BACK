@@ -1,8 +1,16 @@
 package co.edu.uniquindio.model;
 
-import java.util.ArrayList;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+import java.util.ArrayList;
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 public class Album {
+
     private String albumName;
     private Genre albumGenre;
 
@@ -16,67 +24,26 @@ public class Album {
 
     private ArrayList<Song> songList;
 
-    public Album(String albumName, Genre albumGenre, Author albumAuthor, String albumYear, String albumCover) {
-        this.albumName = albumName;
-        this.albumGenre = albumGenre;
-        this.albumAuthor = albumAuthor;
-        this.albumYear = albumYear;
-        this.albumCover = albumCover;
-    }
 
-    public String getAlbumName() {
-        return albumName;
-    }
+    @Getter
+    public enum Genre {
+        ROCK("Rock"),POP("Pop"),PUNK("Punk"),REGGAETON("Reggaeton"),ELECTRONIC("Electronic"),
+        RAP("Rap"),CLASSIC("Classic"),REGGAE("Reggae"),INDIE("Indie"),OTHER("Other");
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
+        private String value;
 
-    public Genre getAlbumGenre() {
-        return albumGenre;
-    }
+        Genre(String value) {
+            this.value = value;
+        }
 
-    public void setAlbumGenre(Genre albumGenre) {
-        this.albumGenre = albumGenre;
-    }
+        public static Genre genreOf(String value) {
+            Genre[] values = values();
+            for (Genre genre : values) {
+                if (genre.getValue().equals(value))
+                    return genre;
+            }
+            return null;
+        }
 
-    public Author getAlbumAuthor() {
-        return albumAuthor;
-    }
-
-    public void setAlbumAuthor(Author albumAuthor) {
-        this.albumAuthor = albumAuthor;
-    }
-
-    public String getAlbumCode() {
-        return albumCode;
-    }
-
-    public void setAlbumCode(String albumCode) {
-        this.albumCode = albumCode;
-    }
-
-    public String getAlbumYear() {
-        return albumYear;
-    }
-
-    public void setAlbumYear(String albumYear) {
-        this.albumYear = albumYear;
-    }
-
-    public String getAlbumCover() {
-        return albumCover;
-    }
-
-    public void setAlbumCover(String albumCover) {
-        this.albumCover = albumCover;
-    }
-
-    public ArrayList<Song> getSongList() {
-        return songList;
-    }
-
-    public void setSongList(ArrayList<Song> songList) {
-        this.songList = songList;
     }
 }
