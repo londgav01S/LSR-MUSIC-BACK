@@ -7,12 +7,14 @@ import co.edu.uniquindio.model.estructurasDeDatos.Tree.BinaryTree;
 import co.edu.uniquindio.model.estructurasDeDatos.Tree.Tree;
 import co.edu.uniquindio.model.modelUtils.ComparatorAttribute;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Map;
 
 @Data
+@Component
 public class LSR {
     private Tree<Author> lstAuthors;
     private Map<String, User> lstUsers;
@@ -112,4 +114,11 @@ public class LSR {
     }
 
  */
+
+    public Song searchSongByCode(String code){
+        for(Song s : getLstSongs())
+            if(s.getCode().equals(code))
+                return s;
+        return null;
+    }
 }
