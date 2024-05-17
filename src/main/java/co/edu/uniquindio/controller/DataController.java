@@ -2,7 +2,10 @@ package co.edu.uniquindio.controller;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.LSR;
 import co.edu.uniquindio.model.Song;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +24,8 @@ public class DataController {
 
     @PostMapping
     public String createSong(@RequestBody Song song) {
-        lsr.addSongToArtist(song.getAuthor().getName(),song);
-        return "Song created"+song.getSongName();
+        lsr.addSongToArtist(song.getAuthor().getName(), song);
+        return "Song created" + song.getSongName();
     }
 
     @GetMapping("/{id}")
@@ -36,8 +39,9 @@ public class DataController {
     }
 
 
+
     @GetMapping("/song")
-    public ResponseEntity<Song> getSong() {  
+    public ResponseEntity<String> getSong() {
         Song song = Song.builder()
                 .code("1")
                 .songName("La PI canción")
@@ -48,7 +52,15 @@ public class DataController {
                 .author(null)
                 .build();
 
-        return ResponseEntity.ok(song);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println("cree el mapper");
+        try {
+            String json = mapper.writeValueAsString(song);
+            System.out.println(json);
+            return ResponseEntity.ok(json);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.internalServerError().body("Error creating song JSON");
+        }
     }
 
 
