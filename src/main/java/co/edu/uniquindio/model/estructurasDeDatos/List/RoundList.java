@@ -12,6 +12,9 @@ public class RoundList <T extends Comparable<T>> implements LinkedList<T> {
     private Node<T> head;
     private int size;
 
+    public void addAll(List<T> songs) {
+    }
+
     private class Node<T> {
         T element;
         Node<T> next;
@@ -168,4 +171,11 @@ public class RoundList <T extends Comparable<T>> implements LinkedList<T> {
     public void sort(Comparator<T> comparator) {
 
     }
+
+    @Override
+    public void addAll(DoubleLinkedList<T> songs) {
+
+    }
+
+
 }

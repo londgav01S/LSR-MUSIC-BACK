@@ -129,4 +129,11 @@ public class DoubleLinkedList <T extends Comparable<T>> implements LinkedList<T>
             current = current.next;
         }
     }
+
+
+    //TODO: Implement this method
+    @Override
+    public void addAll(DoubleLinkedList<T> songs) {
+
+    }
 }

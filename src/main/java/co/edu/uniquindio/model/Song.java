@@ -1,30 +1,43 @@
 package co.edu.uniquindio.model;
 
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.EqualsAndHashCode.Include;
-import lombok.Getter;
 
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-public class Song implements Comparable<Song>{
+@Entity
+@AllArgsConstructor
+@Table(name = "song")
+public class Song extends Persistence implements Comparable<Song> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+
 
     @Include
     private String code;
     private String songName;
+
+    @ManyToOne
     private Album album;
     //The time is going to be handle in Seconds
     private String time;
-
     private String url;
-
     private Genre genre;
 
+    @ManyToOne
     private Author author;
+
+    @ManyToOne
+    private User user;
+
+    public Song() {}
 
     public boolean hasOMatches(Object [] o2){
         Object[] o1 = {songName, album, time, genre, author};

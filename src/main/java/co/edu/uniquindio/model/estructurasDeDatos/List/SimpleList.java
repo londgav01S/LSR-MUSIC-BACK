@@ -255,4 +255,9 @@ public class SimpleList <T extends Comparable<T>> implements LinkedList<T>{
         }
     }
 
+    @Override
+    public void addAll(DoubleLinkedList<T> songs) {
+
+    }
+
 }
