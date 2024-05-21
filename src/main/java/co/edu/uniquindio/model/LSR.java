@@ -1,27 +1,43 @@
 package co.edu.uniquindio.model;
 
+//TODO: revisar el por que el tree no funciona
 
 import co.edu.uniquindio.model.estructurasDeDatos.List.LinkedList;
 import co.edu.uniquindio.model.estructurasDeDatos.List.SimpleList;
-import co.edu.uniquindio.model.estructurasDeDatos.Tree.BinaryTree;
-import co.edu.uniquindio.model.estructurasDeDatos.Tree.Tree;
-import co.edu.uniquindio.model.modelUtils.ComparatorAttribute;
-import lombok.Data;
-import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
-import java.util.Comparator;
+
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 import java.util.Map;
 
+@Getter
+@Setter
 @Data
 @Component
-public class LSR {
-    private Tree<Author> lstAuthors;
+@Entity
+@Table(name = "lsr")
+public class LSR extends Persistence {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    /*@Transient
+    private Tree<Author> lstAuthors;*/
+
+    @OneToMany(mappedBy = "lsr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @MapKey(name = "username")
     private Map<String, User> lstUsers;
+
+    @ManyToOne
     private User currentUser;
 
     public LSR() {
-        this.lstAuthors = new BinaryTree<>();
+        /*this.lstAuthors = new BinaryTree<>();*/
         this.lstUsers = new java.util.HashMap<>();
     }
 
@@ -30,13 +46,16 @@ public class LSR {
     }
 
 
-    public LinkedList<Song> getUserSongs() {
+    //TODO: revisar
+    /*public LinkedList<Song> getUserSongs() {
         return currentUser.getSongs();
-    }
+    }*/
 
+/*
     public LinkedList<Song> getArtistSongs(String name){
         return lstAuthors.find(createAuxArtist(name)).getSongs();
     }
+*/
     //TODO: Finish this.
     /*
     public LinkedList<Song> searchO(String name, String albumName, String cover, Integer year, LocalTime duration, Song.Genre genre, String artistName){
@@ -55,17 +74,21 @@ public class LSR {
         return list;
     }
 */
+/*
     public void addArtist(Author artist) {
         lstAuthors.insert(artist);
     }
+*/
 
     public void addUser(User user) {
         lstUsers.put(user.getUsername(), user);
     }
 
+/*
     public void addSongToArtist(String name, Song song) {
         lstAuthors.find(createAuxArtist(name)).addSong(song);
     }
+*/
 
     public void addSongToUser(String name){
         //TODO
@@ -75,13 +98,20 @@ public class LSR {
         return Author.builder().name(name).build();
     }
 
-    private LinkedList<Song> getLstSongs(){
+    public void addSongToArtist(String name, Song song) {
+    }
+
+    public Song searchSongByCode(String code) {
+        return null;
+    }
+
+/*    private LinkedList<Song> getLstSongs(){
         LinkedList<Song> list = new SimpleList<>();
         for(Author a: lstAuthors){
             list.extend(a.getSongs());
         }
         return list;
-    }
+    }*/
     //TODO: Fix this. Includes remaking Song and Album
 /*
     public void sortSongsByAttribute(ComparatorAttribute attribute){
@@ -115,10 +145,10 @@ public class LSR {
 
  */
 
-    public Song searchSongByCode(String code){
+ /*   public Song searchSongByCode(String code){
         for(Song s : getLstSongs())
             if(s.getCode().equals(code))
                 return s;
         return null;
-    }
+    }*/
 }

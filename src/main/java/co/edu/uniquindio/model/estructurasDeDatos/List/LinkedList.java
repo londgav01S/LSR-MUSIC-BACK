@@ -3,7 +3,7 @@ package co.edu.uniquindio.model.estructurasDeDatos.List;
 import java.util.Comparator;
 import java.util.List;
 
-public interface LinkedList<T> extends Iterable<T>{
+public interface LinkedList<T extends Comparable<T>> extends Iterable<T>{
 
     void addHead(T element);
     void addTail(T element);
@@ -20,4 +20,6 @@ public interface LinkedList<T> extends Iterable<T>{
     List<T> toList();
     void extend(LinkedList<T> linkedList);
     void sort(Comparator<T> comparator);
+
+    void addAll(DoubleLinkedList<T> songs);
 }

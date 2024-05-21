@@ -1,19 +1,27 @@
 package co.edu.uniquindio.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-public class Album {
+@Entity
+@AllArgsConstructor
+@Table(name = "album")
+public class Album extends Persistence {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     private String albumName;
     private Genre albumGenre;
 
+    @ManyToOne
     private Author albumAuthor;
 
     private String albumCode;
@@ -22,7 +30,10 @@ public class Album {
 
     private String albumCover;
 
-    private ArrayList<Song> songList;
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Song> songList = new ArrayList<>();
+
+    public Album() {}
 
 
     @Getter
