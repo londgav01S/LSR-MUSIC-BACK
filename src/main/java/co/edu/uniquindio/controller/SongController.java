@@ -3,10 +3,7 @@ package co.edu.uniquindio.controller;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +21,12 @@ public class SongController {
     @CrossOrigin(origins = "http://localhost:3000")
     public Song getSong() {
        return songService.creteSong();
+    }
+
+    @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void receiveSong(@RequestBody Song song) {
+        songService.saveSong(song);
     }
 
 }

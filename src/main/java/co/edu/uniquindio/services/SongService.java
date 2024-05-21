@@ -18,4 +18,8 @@ public class SongService {
                 .build();
 
     }
+
+    public void saveSong(Song song) {
+        System.out.println("Song saved: " + song.getSongName());
+    }
 }
