@@ -6,6 +6,7 @@ import co.edu.uniquindio.model.estructurasDeDatos.List.LinkedList;
 import co.edu.uniquindio.model.estructurasDeDatos.List.SimpleList;
 
 
+import co.edu.uniquindio.model.estructurasDeDatos.Tree.Tree;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -21,13 +22,15 @@ import java.util.Map;
 @Entity
 @Table(name = "lsr")
 public class LSR extends Persistence {
-
+    @ManyToOne//TODO: This might cause problems idk
+    private static LSR instance;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    /*@Transient
-    private Tree<Author> lstAuthors;*/
+
+    @Transient
+    private Tree<Author> lstAuthors;
 
     @OneToMany(mappedBy = "lsr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapKey(name = "username")
@@ -39,6 +42,14 @@ public class LSR extends Persistence {
     public LSR() {
         /*this.lstAuthors = new BinaryTree<>();*/
         this.lstUsers = new java.util.HashMap<>();
+    }
+
+
+    public static synchronized LSR getInstance() {
+        if (instance == null) {
+            instance = new LSR();
+        }
+        return instance;
     }
 
     public void login(String username, String password) {

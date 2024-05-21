@@ -50,4 +50,12 @@ public class User extends Persistence {
         this.roundSongs = new RoundList<>();
         this.roundSongs.addAll(this.songs);
     }
+
+    public ArrayList<Song> getListofSongs(){
+        return new ArrayList<>(songs);
+    }
+
+    public void addSong(Song song) {
+        this.songs.add(song);
+    }
 }
