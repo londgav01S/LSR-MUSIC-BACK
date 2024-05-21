@@ -12,7 +12,7 @@ import lombok.Getter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Song implements Comparable<Song>{
-
+    //TODO: Revisar si es necesario el atributo (Clase) Album
     @Include
     private String code;
     private String songName;
