@@ -29,4 +29,10 @@ public class SongController {
         songService.saveSong(song);
     }
 
+    @PostMapping("/delete")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void deleteSong(@RequestBody Song song) {
+        songService.deleteSong(song);
+    }
+
 }

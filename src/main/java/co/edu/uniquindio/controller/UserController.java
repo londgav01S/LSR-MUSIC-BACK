@@ -29,4 +29,10 @@ public class UserController {
     public void registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         userService.guardarUsuario(username, password, email);
     }
+
+    @GetMapping("/likear")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ArrayList<Song> likeSong(@RequestBody Song song) {
+        return userService.likearCancion(song);
+    }
 }

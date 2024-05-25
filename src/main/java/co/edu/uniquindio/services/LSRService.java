@@ -1,6 +1,7 @@
 package co.edu.uniquindio.services;
 
 
+import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.LSR;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.model.User;
@@ -43,10 +44,38 @@ public class LSRService {
 
     public User obtenerUsuario(String usuario, String contrasena) {
         if(lsr.getLstUsers().get(usuario).getPassword().equals(contrasena)){
+            lsr.login(usuario, contrasena);
             return lsr.getLstUsers().get(usuario);
         }
         else{
             return null;
         }
+    }
+
+    public void guardarCancion(Song song) {
+        System.out.println("S");
+    }
+
+    public ArrayList<Song> likearCancion( Song song) {
+        return lsr.addSongToUser( song);
+    }
+
+    public String generateAuthorCode() {
+        return lsr.getLstAuthors().isEmpty()?"1":lsr.getLstAuthors().size()+"";
+    }
+
+    public void create(Author author) {
+        lsr.getLstAuthors().insert(author);
+        System.out.println(author.toString());
+    }
+
+    public ArrayList<Author> getAuthors() {
+        return lsr.getLstAuthorsAsList();
+    }
+
+    public void addSongToAuthor(String author, Song song) {
+        Author authorAux = lsr.getLstAuthors().obtener(author);
+        song.setAuthor(authorAux);
+        lsr.getLstAuthors().find(authorAux).addSong(song);
     }
 }

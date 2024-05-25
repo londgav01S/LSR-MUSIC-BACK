@@ -2,17 +2,18 @@ package co.edu.uniquindio.model;
 
 //TODO: revisar el por que el tree no funciona
 
+
 import co.edu.uniquindio.model.estructurasDeDatos.List.LinkedList;
 import co.edu.uniquindio.model.estructurasDeDatos.List.SimpleList;
-
-
+import co.edu.uniquindio.model.estructurasDeDatos.Tree.BinaryTree;
 import co.edu.uniquindio.model.estructurasDeDatos.Tree.Tree;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 @Getter
@@ -40,7 +41,7 @@ public class LSR extends Persistence {
     private User currentUser;
 
     public LSR() {
-        /*this.lstAuthors = new BinaryTree<>();*/
+        this.lstAuthors = new BinaryTree<Author>();
         this.lstUsers = new java.util.HashMap<>();
     }
 
@@ -54,6 +55,7 @@ public class LSR extends Persistence {
 
     public void login(String username, String password) {
         this.currentUser = lstUsers.getOrDefault(username, null);
+        System.out.println("Usuario actual: " + currentUser.toString());
     }
 
 
@@ -101,8 +103,10 @@ public class LSR extends Persistence {
     }
 */
 
-    public void addSongToUser(String name){
-        //TODO
+    public ArrayList<Song> addSongToUser(Song song){
+        currentUser.addSong(song);
+
+        return currentUser.getListofSongs();
     }
 
     private Author createAuxArtist(String name) {
@@ -116,13 +120,15 @@ public class LSR extends Persistence {
         return null;
     }
 
-/*    private LinkedList<Song> getLstSongs(){
-        LinkedList<Song> list = new SimpleList<>();
-        for(Author a: lstAuthors){
-            list.extend(a.getSongs());
+    public ArrayList<Author> getLstAuthorsAsList() {
+        ArrayList<Author> authorList = new ArrayList<>();
+        for (Author author : lstAuthors) {
+            authorList.add(author);
         }
-        return list;
-    }*/
+        return authorList;
+    }
+
+
     //TODO: Fix this. Includes remaking Song and Album
 /*
     public void sortSongsByAttribute(ComparatorAttribute attribute){

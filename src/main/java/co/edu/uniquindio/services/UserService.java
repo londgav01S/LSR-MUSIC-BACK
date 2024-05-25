@@ -31,4 +31,8 @@ public class UserService {
                 .build();
         lsrService.guardarUsuario(user);
     }
+
+    public ArrayList<Song> likearCancion( Song song) {
+        return lsrService.likearCancion( song);
+    }
 };

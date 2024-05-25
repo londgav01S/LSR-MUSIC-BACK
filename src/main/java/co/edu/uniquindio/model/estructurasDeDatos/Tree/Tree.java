@@ -6,4 +6,7 @@ public interface Tree <T> extends Iterable<T> {
     boolean exists(T value);
     boolean isEmpty();
     T find(T value);
+    int size();
+
+    T obtener(String author);
 }
