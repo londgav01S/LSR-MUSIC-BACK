@@ -30,5 +30,10 @@ public class DataController {
         return dataService.getAuthors();
     }
 
+    @GetMapping("/canciones")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ArrayList<Song> getSongs(){
+        return dataService.getSongs();
+    }
 
 }

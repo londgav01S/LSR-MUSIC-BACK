@@ -2,6 +2,7 @@ package co.edu.uniquindio.services;
 
 
 import co.edu.uniquindio.model.Author;
+import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.LSR;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.model.User;
@@ -73,9 +74,24 @@ public class LSRService {
         return lsr.getLstAuthorsAsList();
     }
 
-    public void addSongToAuthor(String author, Song song) {
-        Author authorAux = lsr.getLstAuthors().obtener(author);
-        song.setAuthor(authorAux);
-        lsr.getLstAuthors().find(authorAux).addSong(song);
+    public void addSongToAuthor(String author, Song song) throws AuthorException {
+        Author aux = null;
+        for (Author a: lsr.getLstAuthorsAsList()) {
+            if (a.getName().equals(author)){
+                aux = a;
+            }
+        }
+        if(aux != null){
+            song.setAuthor(aux.getName());
+            aux.addSong(song);
+            System.out.println("Se guardó:" + song.toString() + aux.toString());
+        }
+        else{
+            throw new AuthorException("Autor no encontrado.");
+        }
+    }
+
+    public ArrayList<Song> getSongs() {
+         return lsr.getListSongs();
     }
 }

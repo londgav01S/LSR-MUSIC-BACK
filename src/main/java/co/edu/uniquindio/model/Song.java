@@ -30,9 +30,7 @@ public class Song extends Persistence implements Comparable<Song> {
     private String time;
     private String url;
     private Genre genre;
-
-    @ManyToOne
-    private Author author;
+    private String author;
 
     @ManyToOne
     private User user;

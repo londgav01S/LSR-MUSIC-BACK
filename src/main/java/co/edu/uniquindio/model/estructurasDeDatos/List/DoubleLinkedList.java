@@ -33,8 +33,18 @@ public class DoubleLinkedList <T extends Comparable<T>> implements LinkedList<T>
 
     @Override
     public void addTail(T element) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addTail'");
+        Node<T> newNode = new Node<>(element);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.prev = current;
+        }
+        size++;
     }
 
     @Override
@@ -87,8 +97,7 @@ public class DoubleLinkedList <T extends Comparable<T>> implements LinkedList<T>
 
     @Override
     public void print() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'print'");
+
     }
 
     @Override
@@ -136,4 +145,23 @@ public class DoubleLinkedList <T extends Comparable<T>> implements LinkedList<T>
     public void addAll(DoubleLinkedList<T> songs) {
 
     }
+    /**
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node<T> current = head;
+
+        sb.append("DoubleLinkedList [");
+        while (current != null) {
+            sb.append(current.element);
+            current = current.next;
+            if (current != null) {
+                sb.append(", ");
+            }
+            System.out.println(sb);
+        }
+        sb.append("]");
+
+        return sb.toString();
+    }
+     */
 }

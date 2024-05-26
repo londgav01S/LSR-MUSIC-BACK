@@ -27,18 +27,24 @@ public class Author extends Persistence implements Comparable<Author>{
     private boolean isGroup;
 
     @ToString.Exclude
+    private String photo;
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Song> ListSongs = new ArrayList<>(); // Persisted as a List
+    private List<Song> listSongs = new ArrayList<>(); // Persisted as a List
+
+
 
     @Transient
     private DoubleLinkedList<Song> songs;
 
     @Builder
-    public Author(String code, String name, String nationality, Boolean isGroup) {
+    public Author(String code, String name, String nationality, Boolean isGroup, String photo) {
         this.code = code;
         this.name = name;
         this.nationality = nationality;
         this.isGroup = isGroup;
+        this.photo = photo;
         this.songs = new DoubleLinkedList<Song>();
     }
 
@@ -48,11 +54,12 @@ public class Author extends Persistence implements Comparable<Author>{
     public int compareTo(Author o) {
         return o.name.compareTo(this.name);
     }
-    public boolean addSong(Song song) {
+
+
+    public void addSong(Song song) {
         Objects.requireNonNull(song);
-        if (verifySong(song)) return false;
         songs.addTail(song);
-        return true;
+        listSongs.add(song);
     }
 
     private boolean verifySong(Song song) {
@@ -70,10 +77,9 @@ public class Author extends Persistence implements Comparable<Author>{
         if (this.songs == null) {
             this.songs = new DoubleLinkedList<>();
         }
-        if (this.ListSongs != null) {
+        if (this.listSongs != null) {
             this.songs.addAll(this.songs);
         }
     }
-
 
 }

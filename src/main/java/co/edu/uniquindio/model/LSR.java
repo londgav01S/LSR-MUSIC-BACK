@@ -128,6 +128,16 @@ public class LSR extends Persistence {
         return authorList;
     }
 
+    public ArrayList<Song> getListSongs() {
+        ArrayList<Song> canciones = new ArrayList<>();
+        for(Author a: getLstAuthorsAsList()){
+            for(Song song : a.getListSongs()){
+                canciones.add(song);
+            }
+        }
+        return canciones;
+    }
+
 
     //TODO: Fix this. Includes remaking Song and Album
 /*
