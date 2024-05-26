@@ -3,6 +3,7 @@ package co.edu.uniquindio.services;
 
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
+import co.edu.uniquindio.model.Exceptions.UsuarioException;
 import co.edu.uniquindio.model.LSR;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.model.User;
@@ -34,12 +35,20 @@ public class LSRService {
                 .mail("admin@example.com")
                 .build();
         user.addSong(song);
-        lsr.addUser(user);
+        try {
+            lsr.addUser(user);
+        } catch (UsuarioException e) {
+            throw new RuntimeException(e);
+        }
     }
     //TODO: verificar si el usuario ya existe y arrojar exception
     public void guardarUsuario(User user) {
-        lsr.addUser(user);
-        System.out.println("Usuario guardado: " + user.toString());
+        try {
+            lsr.addUser(user);
+            System.out.println("Usuario guardado: " + user.toString());
+        } catch (UsuarioException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

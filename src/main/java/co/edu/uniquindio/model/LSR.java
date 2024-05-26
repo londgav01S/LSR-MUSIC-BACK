@@ -3,6 +3,7 @@ package co.edu.uniquindio.model;
 //TODO: revisar el por que el tree no funciona
 
 
+import co.edu.uniquindio.model.Exceptions.UsuarioException;
 import co.edu.uniquindio.model.estructurasDeDatos.List.LinkedList;
 import co.edu.uniquindio.model.estructurasDeDatos.List.SimpleList;
 import co.edu.uniquindio.model.estructurasDeDatos.Tree.BinaryTree;
@@ -93,8 +94,13 @@ public class LSR extends Persistence {
     }
 */
 
-    public void addUser(User user) {
-        lstUsers.put(user.getUsername(), user);
+    public void addUser(User user) throws UsuarioException {
+        if (lstUsers.containsKey(user.getUsername())){
+            throw new UsuarioException("El usuario ya existe");
+        }
+        else {
+            lstUsers.put(user.getUsername(), user);
+        }
     }
 
 /*
