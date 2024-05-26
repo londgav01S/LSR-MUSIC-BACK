@@ -1,11 +1,27 @@
 package co.edu.uniquindio.model;
 
-import java.util.ArrayList;
+import jakarta.persistence.*;
+import lombok.*;
 
-public class Album {
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
+@Entity
+@AllArgsConstructor
+@Table(name = "album")
+public class Album extends Persistence {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
     private String albumName;
     private Genre albumGenre;
 
+    @ManyToOne
     private Author albumAuthor;
 
     private String albumCode;
@@ -14,70 +30,32 @@ public class Album {
 
     private String albumCover;
 
-    private ArrayList<Song> songList;
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Song> songList = new ArrayList<>();
 
-    public Album(String albumName, Genre albumGenre, Author albumAuthor, String albumYear, String albumCover) {
-        this.albumName = albumName;
-        this.albumGenre = albumGenre;
-        this.albumAuthor = albumAuthor;
-        this.albumYear = albumYear;
-        this.albumCover = albumCover;
-    }
+    public Album() {}
 
-    public String getAlbumName() {
-        return albumName;
-    }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
+    @Getter
+    public enum Genre {
+        ROCK("Rock"),POP("Pop"),PUNK("Punk"),REGGAETON("Reggaeton"),ELECTRONIC("Electronic"),
+        RAP("Rap"),CLASSIC("Classic"),REGGAE("Reggae"),INDIE("Indie"),OTHER("Other");
 
-    public Genre getAlbumGenre() {
-        return albumGenre;
-    }
+        private String value;
 
-    public void setAlbumGenre(Genre albumGenre) {
-        this.albumGenre = albumGenre;
-    }
+        Genre(String value) {
+            this.value = value;
+        }
 
-    public Author getAlbumAuthor() {
-        return albumAuthor;
-    }
+        public static Genre genreOf(String value) {
+            Genre[] values = values();
+            for (Genre genre : values) {
+                if (genre.getValue().equals(value))
+                    return genre;
+            }
+            return null;
+        }
 
-    public void setAlbumAuthor(Author albumAuthor) {
-        this.albumAuthor = albumAuthor;
-    }
-
-    public String getAlbumCode() {
-        return albumCode;
-    }
-
-    public void setAlbumCode(String albumCode) {
-        this.albumCode = albumCode;
-    }
-
-    public String getAlbumYear() {
-        return albumYear;
-    }
-
-    public void setAlbumYear(String albumYear) {
-        this.albumYear = albumYear;
-    }
-
-    public String getAlbumCover() {
-        return albumCover;
-    }
-
-    public void setAlbumCover(String albumCover) {
-        this.albumCover = albumCover;
-    }
-
-    public ArrayList<Song> getSongList() {
-        return songList;
-    }
-
-    public void setSongList(ArrayList<Song> songList) {
-        this.songList = songList;
     }
 
     @Override

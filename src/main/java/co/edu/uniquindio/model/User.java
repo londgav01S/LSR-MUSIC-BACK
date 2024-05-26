@@ -1,42 +1,78 @@
 package co.edu.uniquindio.model;
 
+<<<<<<< HEAD
 import co.edu.uniquindio.model.estructurasDeDatos.ListaDoblementeEnlazada;
+=======
+import co.edu.uniquindio.model.estructurasDeDatos.List.RoundList;
+import jakarta.persistence.*;
+import lombok.*;
+>>>>>>> luis
 
-public class User {
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+public class User extends Persistence {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Setter(value = AccessLevel.PRIVATE)
+    @EqualsAndHashCode.Include
     private String username;//The username shall NOT be repeated
     private String password;
     private String mail;
+<<<<<<< HEAD
     private ListaDoblementeEnlazada<Song> songs;
+=======
+>>>>>>> luis
 
-    public String getUsername() {
-        return username;
-    }
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Song> songs = new ArrayList<>();  // Persisted as a List
 
-    public void setUsername(String username) {
+    @Transient
+    private RoundList<Song> roundSongs; // Application logic
+
+    @ManyToOne
+    private LSR lsr;
+
+
+    @Builder
+    public User(String username, String password, String mail) {
+        super();
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
         this.mail = mail;
+        this.songs = new ArrayList<>();
+        this.roundSongs = new RoundList<>();
     }
 
+<<<<<<< HEAD
     public ListaDoblementeEnlazada<Song> getSongs() {
         return songs;
     }
 
     public void setSongs(ListaDoblementeEnlazada<Song> songs) {
         this.songs = songs;
+=======
+    @PostLoad
+    private void initializeRoundList() {
+        this.roundSongs = new RoundList<>();
+        this.roundSongs.addAll(this.songs);
+    }
+
+    public ArrayList<Song> getListofSongs(){
+        return new ArrayList<>(songs);
+    }
+
+    public void addSong(Song song) {
+        this.songs.add(song);
+>>>>>>> luis
     }
 }
