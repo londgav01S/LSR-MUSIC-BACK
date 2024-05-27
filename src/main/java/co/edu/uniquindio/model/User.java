@@ -1,5 +1,6 @@
 package co.edu.uniquindio.model;
 
+import co.edu.uniquindio.*;
 import co.edu.uniquindio.model.estructurasDeDatos.List.RoundList;
 import jakarta.persistence.*;
 import lombok.*;
@@ -49,6 +50,10 @@ public class User extends Persistence {
     private void initializeRoundList() {
         this.roundSongs = new RoundList<>();
         this.roundSongs.addAll(this.songs);
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ArrayList<Song> getListofSongs(){

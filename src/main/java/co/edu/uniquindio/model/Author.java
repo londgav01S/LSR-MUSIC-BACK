@@ -11,6 +11,8 @@ import java.util.Objects;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
 @Table(name = "author")
 public class Author extends Persistence implements Comparable<Author>{
 
@@ -20,6 +22,7 @@ public class Author extends Persistence implements Comparable<Author>{
 
     private String code;
 
+    @Getter
     @Setter(value = AccessLevel.PRIVATE)
     @EqualsAndHashCode.Include
     private String name;//The name of the author shall NOT be repeated
@@ -48,6 +51,7 @@ public class Author extends Persistence implements Comparable<Author>{
         this.songs = new DoubleLinkedList<Song>();
     }
 
+    @Builder
     public Author() {}
 
     @Override
@@ -70,6 +74,14 @@ public class Author extends Persistence implements Comparable<Author>{
         }
         return false;
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @PostLoad

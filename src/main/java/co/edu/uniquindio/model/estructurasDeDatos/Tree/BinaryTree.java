@@ -117,7 +117,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         }
     }
 
-    @Override
     public int size() {
         return size(root);
     }
