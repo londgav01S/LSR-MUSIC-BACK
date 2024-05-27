@@ -20,7 +20,7 @@ public class SongController {
     @GetMapping
     @CrossOrigin(origins = "http://localhost:3000")
     public Song getSong() {
-       return songService.creteSong();
+       return songService.createSong();
     }
 
     @PostMapping

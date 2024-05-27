@@ -72,6 +72,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         return root == null;
     }
 
+
     @Override
     public T obtener(String author) {
         if (author == null) {
@@ -116,7 +117,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         }
     }
 
-    @Override
     public int size() {
         return size(root);
     }

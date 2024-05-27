@@ -4,6 +4,7 @@ package co.edu.uniquindio.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.EqualsAndHashCode.Include;
+import co.edu.uniquindio.*;
 
 
 @Data
@@ -30,9 +31,7 @@ public class Song extends Persistence implements Comparable<Song> {
     private String time;
     private String url;
     private Genre genre;
-
-    @ManyToOne
-    private Author author;
+    private String author;
 
 <<<<<<< HEAD
     // Constructor
@@ -157,6 +156,23 @@ public class Song extends Persistence implements Comparable<Song> {
         }
 
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getSongName() {
+        return songName;
+    }
+
+    public void setSongName(String songName) {
+        this.songName = songName;
+    }
+
     @Override
     public int compareTo(Song o) {
         return this.songName.compareTo(o.songName);

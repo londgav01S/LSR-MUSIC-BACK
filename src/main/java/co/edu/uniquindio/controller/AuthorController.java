@@ -20,15 +20,15 @@ public class AuthorController {
     @PostMapping("/crear")
     @CrossOrigin(origins = "http://localhost:3000")
     public void createAuthor(@RequestParam String name,@RequestParam String
-            nationality, @RequestParam Boolean isGroup) {
-        authorService.createAuthor(name,nationality,isGroup);
+            nationality, @RequestParam Boolean isGroup, @RequestParam String photo) {
+        authorService.createAuthor(name,nationality,isGroup,photo);
 
     }
 
     @PostMapping("/addSongToAuthor")
     @CrossOrigin(origins = "http://localhost:3000")
     public void addSongToAuthor(@RequestParam String author, @RequestBody Song song){
-        authorService.addSongToAuthor(author,song);//TODO: ??? AYUDA
+        authorService.addSongToAuthor(author,song);
     }
 
 

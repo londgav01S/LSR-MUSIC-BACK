@@ -1,12 +1,9 @@
 package co.edu.uniquindio.model;
 
-<<<<<<< HEAD
-import co.edu.uniquindio.model.estructurasDeDatos.ListaDoblementeEnlazada;
-=======
+import co.edu.uniquindio.*;
 import co.edu.uniquindio.model.estructurasDeDatos.List.RoundList;
 import jakarta.persistence.*;
 import lombok.*;
->>>>>>> luis
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +24,6 @@ public class User extends Persistence {
     private String username;//The username shall NOT be repeated
     private String password;
     private String mail;
-<<<<<<< HEAD
-    private ListaDoblementeEnlazada<Song> songs;
-=======
->>>>>>> luis
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -53,18 +46,14 @@ public class User extends Persistence {
         this.roundSongs = new RoundList<>();
     }
 
-<<<<<<< HEAD
-    public ListaDoblementeEnlazada<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(ListaDoblementeEnlazada<Song> songs) {
-        this.songs = songs;
-=======
     @PostLoad
     private void initializeRoundList() {
         this.roundSongs = new RoundList<>();
         this.roundSongs.addAll(this.songs);
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ArrayList<Song> getListofSongs(){
@@ -73,6 +62,5 @@ public class User extends Persistence {
 
     public void addSong(Song song) {
         this.songs.add(song);
->>>>>>> luis
     }
 }
