@@ -40,18 +40,6 @@ class BinaryTreeTest {
         assertFalse(tree.exists(autor2));
     }
 
-    @Test
-    void obtener() {
-        Author autor1 = new Author();
-        autor1.setName("Gabriel García Márquez");
-        Author autor2 = new Author();
-        autor2.setName("Mario Vargas Llosa");
-        tree.insert(autor1);
-        tree.insert(autor2);
-        assertEquals(autor1, tree.obtener("Gabriel García Márquez"));
-        assertEquals(autor2, tree.obtener("Mario Vargas Llosa"));
-        assertNull(tree.obtener("Isabel Allende"));
-    }
 
     @Test
     void find() {

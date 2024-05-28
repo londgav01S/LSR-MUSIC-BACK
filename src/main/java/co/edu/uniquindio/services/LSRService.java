@@ -91,8 +91,9 @@ public class LSRService {
      * @param song the Song object to be liked
      * @return an ArrayList of Song objects liked by the user
      */
-    public ArrayList<Song> likearCancion(Song song) {
-        return lsr.addSongToUser(song);
+    public ArrayList<Song> likearCancion(String song) {
+        Song song1 = new Song();
+        return lsr.addSongToUser(song1);
     }
 
     /**

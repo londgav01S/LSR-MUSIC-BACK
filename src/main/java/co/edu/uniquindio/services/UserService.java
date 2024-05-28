@@ -59,7 +59,7 @@ public class UserService {
      * @param song the song to be liked
      * @return an ArrayList of Song objects liked by the user
      */
-    public ArrayList<Song> likearCancion(Song song) {
+    public ArrayList<Song> likearCancion(String song) {
         return lsrService.likearCancion(song);
     }
 }

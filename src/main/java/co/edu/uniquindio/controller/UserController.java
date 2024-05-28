@@ -32,7 +32,8 @@ public class UserController {
 
     @GetMapping("/likear")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ArrayList<Song> likeSong(@RequestBody Song song) {
+    public ArrayList<Song> likeSong(@RequestParam String song) {
+        System.out.println(song);
         return userService.likearCancion(song);
     }
 }
