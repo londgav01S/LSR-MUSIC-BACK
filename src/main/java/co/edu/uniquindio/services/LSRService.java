@@ -1,5 +1,6 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.LsrRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Exceptions.UsuarioException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to manage LSR-related operations.
@@ -18,13 +20,18 @@ import java.util.ArrayList;
 public class LSRService {
     private final LSR lsr;
 
+    private final LsrRepository lsrRepository;
+
+
     /**
      * Constructor to initialize the LSR instance and add a default user with a song.
      */
-    public LSRService() {
+    @Autowired
+    public LSRService(LsrRepository lsrRepository) {
+        this.lsrRepository = lsrRepository;
         lsr = LSR.getInstance();
 
-        Song song = Song.builder()
+        /*Song song = Song.builder()
                 .code("1")
                 .songName("La PI canción")
                 .album(null)
@@ -32,19 +39,10 @@ public class LSRService {
                 .url("https://www.youtube.com/watch?v=3HRkKznJoZA&ab_channel=AsapSCIENCE")
                 .genre(Song.Genre.POP)
                 .author(null)
-                .build();
-        User user = User.builder()
-                .username("admin")
-                .password("admin")
-                .mail("admin@example.com")
-                .build();
-        user.addSong(song);
-        try {
-            lsr.addUser(user);
-        } catch (UsuarioException e) {
-            throw new RuntimeException(e);
-        }
+                .build();*/
     }
+
+
 
     /**
      * Saves a user to the LSR instance.
@@ -74,6 +72,11 @@ public class LSRService {
         } else {
             return null;
         }
+    }
+
+
+    public LSR almacenarLSR(LSR lsr) {
+        return lsrRepository.save(lsr);
     }
 
     /**
@@ -148,6 +151,9 @@ public class LSRService {
         }
     }
 
+
+
+
     /**
      * Retrieves the list of songs.
      *
@@ -155,5 +161,21 @@ public class LSRService {
      */
     public ArrayList<Song> getSongs() {
         return lsr.getListSongs();
+    }
+
+    public void recibirUsuarios(List<User> all) {
+        for (User user : all) {
+            try {
+                lsr.addUser(user);
+            } catch (UsuarioException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void recibirarAutor(List<Author> all) {
+        for (Author author : all) {
+            lsr.getLstAuthors().insert(author);
+        }
     }
 }

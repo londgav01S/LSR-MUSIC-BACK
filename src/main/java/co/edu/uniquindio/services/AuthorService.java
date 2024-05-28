@@ -1,10 +1,14 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.AuthorRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to manage author-related operations.
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorService {
     private final LSRService lsrService;
+    private final AuthorRepository authorRepository;
 
     /**
      * Constructor to initialize the AuthorService with a reference to the LSRService.
@@ -19,8 +24,9 @@ public class AuthorService {
      * @param lsrService the LSRService used to interact with the LSR model
      */
     @Autowired
-    public AuthorService(LSRService lsrService) {
+    public AuthorService(LSRService lsrService, AuthorRepository authorRepository) {
         this.lsrService = lsrService;
+        this.authorRepository = authorRepository;
     }
 
     /**
@@ -52,6 +58,7 @@ public class AuthorService {
                 .isGroup(isGroup)
                 .photo(photo)
                 .build();
+        authorRepository.save(author);
         lsrService.create(author);
     }
 
@@ -68,5 +75,18 @@ public class AuthorService {
         } catch (AuthorException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Retrieves the list of authors.
+     *
+     * @return an ArrayList of Author objects
+     */
+    public List<Author> getAuthors() {
+        return authorRepository.findAll() ;
+    }
+
+    public void agregarAutorToLsr(){
+        lsrService.recibirarAutor(getAuthors());
     }
 }

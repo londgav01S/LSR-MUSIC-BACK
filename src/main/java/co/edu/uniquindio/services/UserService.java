@@ -1,5 +1,6 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.UserRepository;
 import co.edu.uniquindio.model.LSR;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.model.User;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to manage user-related operations.
@@ -15,20 +17,24 @@ import java.util.ArrayList;
 public class UserService {
     private final LSRService lsrService;
 
+    private final UserRepository userRepository;
+
     /**
      * Constructor to autowire the LSRService dependency.
      *
      * @param lsrService the LSRService instance to be injected
      */
     @Autowired
-    public UserService(LSRService lsrService) {
+    public UserService(LSRService lsrService, UserRepository userRepository) {
         this.lsrService = lsrService;
+        this.userRepository = userRepository;
+        mandarUsuarios();
     }
 
     /**
      * Retrieves the list of songs associated with a user.
      *
-     * @param usuario the username of the user
+     * @param usuario    the username of the user
      * @param contrasena the password of the user
      * @return an ArrayList of Song objects associated with the user
      */
@@ -42,7 +48,7 @@ public class UserService {
      *
      * @param username the username of the new user
      * @param password the password of the new user
-     * @param email the email of the new user
+     * @param email    the email of the new user
      */
     public void guardarUsuario(String username, String password, String email) {
         User user = User.builder()
@@ -50,6 +56,7 @@ public class UserService {
                 .password(password)
                 .mail(email)
                 .build();
+        userRepository.save(user);
         lsrService.guardarUsuario(user);
     }
 
@@ -61,5 +68,19 @@ public class UserService {
      */
     public ArrayList<Song> likearCancion(String song) {
         return lsrService.likearCancion(song);
+    }
+
+
+    public void mandarUsuarios() {
+        lsrService.recibirUsuarios(obtenerUsuarios());
+    }
+
+
+    /**
+     * metodo que me trae todos los usuarios de la base de datos
+     * @return lista de usuarios
+     */
+    private List<User> obtenerUsuarios(){
+        return (userRepository.findAll());
     }
 }
