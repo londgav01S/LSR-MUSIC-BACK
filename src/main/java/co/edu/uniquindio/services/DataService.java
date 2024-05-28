@@ -25,4 +25,16 @@ public class DataService {
     public ArrayList<Song> getSongs() {
         return lsrService.getSongs();
     }
+
+    public ArrayList<Song> searchSongsOR(String query) {
+        return lsrService.searchSongsOR(query);
+    }
+
+    public ArrayList<Song> searchSongsAND(String query) {
+        return lsrService.searchSongsAND(query);
+    }
+
+    public ArrayList<Song> searchSongsANDOR(String query) {
+        return lsrService.searchSongsANDOR(query);
+    }
 }

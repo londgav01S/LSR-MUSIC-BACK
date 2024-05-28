@@ -156,4 +156,46 @@ public class LSRService {
     public ArrayList<Song> getSongs() {
         return lsr.getListSongs();
     }
+
+    public ArrayList<Song> searchSongsOR(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarOR(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsAND(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarAND(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsANDOR(String query) {
+        ArrayList<Song> result = new ArrayList<Song>();
+        String [] words = query.split(" ");
+        Thread t1 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarAND(words)){
+                    result.add(s);
+                }
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarOR(words)){
+                    result.add(s);
+                }
+            }
+        });
+        return result;
+    }
 }
