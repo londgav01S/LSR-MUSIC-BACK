@@ -15,18 +15,15 @@ import java.util.List;
  */
 @Service
 public class AuthorService {
-    private final LSRService lsrService;
     private final AuthorRepository authorRepository;
 
-    /**
-     * Constructor to initialize the AuthorService with a reference to the LSRService.
-     *
-     * @param lsrService the LSRService used to interact with the LSR model
-     */
+    private static Services services= Services.getInstance();
+
+
     @Autowired
-    public AuthorService(LSRService lsrService, AuthorRepository authorRepository) {
-        this.lsrService = lsrService;
+    public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
+        agregarAutorToLsr();
     }
 
 
@@ -40,30 +37,17 @@ public class AuthorService {
      */
     public void createAuthor(String name, String nationality, Boolean isGroup, String photo) {
         Author author = Author.builder()
-                .code(lsrService.generateAuthorCode())
+                .code(services.generateAuthorCode())
                 .name(name)
                 .nationality(nationality)
                 .isGroup(isGroup)
                 .photo(photo)
                 .build();
         authorRepository.save(author);
-        lsrService.create(author);
+        services.create(author);
     }
 
-    /**
-     * Adds a song to an author's list of songs.
-     *
-     * @param author the name of the author
-     * @param song the Song object to be added
-     * @throws RuntimeException if the author is not found
-     */
-    public void addSongToAuthor(String author, Song song) {
-        try {
-            lsrService.addSongToAuthor(author, song);
-        } catch (AuthorException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     /**
      * Retrieves the list of authors.
@@ -75,6 +59,6 @@ public class AuthorService {
     }
 
     public void agregarAutorToLsr(){
-        lsrService.recibirarAutor(getAuthors());
+        services.recibirarAutor(getAuthors());
     }
 }

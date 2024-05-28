@@ -15,18 +15,14 @@ import java.util.List;
  */
 @Service
 public class UserService {
-    private final LSRService lsrService;
 
     private final UserRepository userRepository;
 
-    /**
-     * Constructor to autowire the LSRService dependency.
-     *
-     * @param lsrService the LSRService instance to be injected
-     */
+    private static Services services= Services.getInstance();
+
+
     @Autowired
-    public UserService(LSRService lsrService, UserRepository userRepository) {
-        this.lsrService = lsrService;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
         mandarUsuarios();
     }
@@ -39,7 +35,7 @@ public class UserService {
      * @return an ArrayList of Song objects associated with the user
      */
     public ArrayList<Song> obtenerCancionesUsuarios(String usuario, String contrasena) {
-        User user = lsrService.obtenerUsuario(usuario, contrasena);
+        User user = services.obtenerUsuario(usuario, contrasena);
         return user.getListofSongs();
     }
 
@@ -57,7 +53,7 @@ public class UserService {
                 .mail(email)
                 .build();
         userRepository.save(user);
-        lsrService.guardarUsuario(user);
+        services.guardarUsuario(user);
     }
 
     /**
@@ -67,12 +63,12 @@ public class UserService {
      * @return an ArrayList of Song objects liked by the user
      */
     public ArrayList<Song> likearCancion(String song) {
-        return lsrService.likearCancion(song);
+        return services.likearCancion(song);
     }
 
 
     public void mandarUsuarios() {
-        lsrService.recibirUsuarios(obtenerUsuarios());
+        services.recibirUsuarios(obtenerUsuarios());
     }
 
 

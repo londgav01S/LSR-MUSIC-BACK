@@ -26,8 +26,6 @@ public class Song extends Persistence implements Comparable<Song> {
     private String songName;
     private String photoURL;
 
-    @ManyToOne
-    private Album album;
     //The time is going to be handle in Seconds
     private String time;
     private String url;
@@ -39,23 +37,6 @@ public class Song extends Persistence implements Comparable<Song> {
 
     public Song() {}
 
-    public boolean hasOMatches(Object [] o2){
-        Object[] o1 = {songName, album, time, genre, author};
-        if(o2==null) return false;
-        for(int i=0; i<o1.length; i++){
-            if(o2[i]!=null &&o1[i].equals(o2[i])) return true;
-        }
-        return false;
-    }
-
-    public boolean hasYMatches(Object [] o2){
-        Object[] o1 = {songName, album, time, genre, author};
-        if(o2==null) return false;
-        for(int i=0; i<o1.length; i++){
-            if(o2[i]!=null && !o1[i].equals(o2[i])) return false;
-        }
-        return true;
-    }
 
     public boolean verficarOR(String[] words) {
         if(verificarName(words) || verificarArtista(words) || verificarGenero(words)) return true;

@@ -3,6 +3,7 @@ package co.edu.uniquindio.model;
 //TODO: revisar el por que el tree no funciona
 
 
+import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Exceptions.UsuarioException;
 import co.edu.uniquindio.model.estructurasDeDatos.List.LinkedList;
 import co.edu.uniquindio.model.estructurasDeDatos.List.SimpleList;
@@ -119,7 +120,27 @@ public class LSR extends Persistence {
         return Author.builder().name(name).build();
     }
 
-    public void addSongToArtist(String name, Song song) {
+    /**
+     * Adds a song to an author's list of songs.
+     *
+     * @param author the name of the author
+     * @param song the Song object to be added
+     * @throws AuthorException if the author is not found
+     */
+    public void addSongToAuthor(String author, Song song) throws AuthorException {
+        Author aux = null;
+        for (Author a : getLstAuthorsAsList()) {
+            if (a.getName().equals(author)) {
+                aux = a;
+            }
+        }
+        if (aux != null) {
+            song.setAuthor(aux.getName());
+            aux.addSong(song);
+            System.out.println("Se guardó: " + song.toString() + aux.toString());
+        } else {
+            throw new AuthorException("Autor no encontrado.");
+        }
     }
 
     public Song searchSongByCode(String code) {
@@ -154,7 +175,11 @@ public class LSR extends Persistence {
         return null;
     }
 
-
-
-
+    public void linkSongToAuthor(String author, Song song) {
+        for(Author a : getLstAuthorsAsList()){
+            if(a.getName().equals(author)){
+                a.addSong(song);
+            }
+        }
+    }
 }

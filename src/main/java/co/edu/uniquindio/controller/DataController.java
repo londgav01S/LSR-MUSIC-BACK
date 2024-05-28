@@ -33,6 +33,7 @@ public class DataController {
     @GetMapping("/canciones")
     @CrossOrigin(origins = "http://localhost:3000")
     public ArrayList<Song> getSongs(){
+        System.out.println("obteniendo canciones");
         return dataService.getSongs();
     }
 

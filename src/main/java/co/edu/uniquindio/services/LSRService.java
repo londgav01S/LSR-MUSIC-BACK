@@ -1,5 +1,6 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.LsrRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Exceptions.UsuarioException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to manage LSR-related operations.
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 @Service
 public class LSRService {
     private final LSR lsr;
+
+    private final LsrRepository lsrRepository;
 
     /**
      * Constructor to initialize the LSR instance and add a default user with a song.
@@ -121,28 +125,7 @@ public class LSRService {
         return lsr.getLstAuthorsAsList();
     }
 
-    /**
-     * Adds a song to an author's list of songs.
-     *
-     * @param author the name of the author
-     * @param song the Song object to be added
-     * @throws AuthorException if the author is not found
-     */
-    public void addSongToAuthor(String author, Song song) throws AuthorException {
-        Author aux = null;
-        for (Author a : lsr.getLstAuthorsAsList()) {
-            if (a.getName().equals(author)) {
-                aux = a;
-            }
-        }
-        if (aux != null) {
-            song.setAuthor(aux.getName());
-            aux.addSong(song);
-            System.out.println("Se guardó: " + song.toString() + aux.toString());
-        } else {
-            throw new AuthorException("Autor no encontrado.");
-        }
-    }
+
 
     /**
      * Retrieves the list of songs.
@@ -208,6 +191,20 @@ public class LSRService {
     public void recibirarAutor(List<Author> all) {
         for (Author author : all) {
             lsr.getLstAuthors().insert(author);
+        }
+    }
+
+    public void recibirCanciones(List<Song> all) {
+        for (Song song : all) {
+            lsr.linkSongToAuthor(song.getAuthor(), song);
+        }
+    }
+
+    public void addSongToAuthor(String author, Song song) {
+        try {
+            lsr.addSongToAuthor(author, song);
+        } catch (AuthorException e) {
+            throw new RuntimeException(e);
         }
     }
 }

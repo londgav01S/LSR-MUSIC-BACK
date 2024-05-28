@@ -32,8 +32,7 @@ public class Author extends Persistence implements Comparable<Author>{
     @ToString.Exclude
     private String photo;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Song> listSongs = new ArrayList<>(); // Persisted as a List
 
 

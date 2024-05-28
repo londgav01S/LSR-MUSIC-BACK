@@ -25,12 +25,5 @@ public class AuthorController {
 
     }
 
-    @PostMapping("/addSongToAuthor")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public void addSongToAuthor(@RequestParam String author, @RequestBody Song song){
-        System.out.println("recibiendo cancion: "+ song.toString());
-        authorService.addSongToAuthor(author,song);
-    }
-
 
 }

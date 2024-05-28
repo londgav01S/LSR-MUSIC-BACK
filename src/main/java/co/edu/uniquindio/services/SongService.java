@@ -1,5 +1,7 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.SongRepository;
+import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,16 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class SongService {
 
-    private final LSRService lsrService;
+    private final SongRepository songRepository;
 
-    /**
-     * Constructor to autowire the LSRService dependency.
-     *
-     * @param lsrService the LSRService instance to be injected
-     */
+    private static Services services= Services.getInstance();
+
+
     @Autowired
-    public SongService(LSRService lsrService) {
-        this.lsrService = lsrService;
+    public SongService(SongRepository songRepository) {
+        this.songRepository = songRepository;
+        sendSongsToLsr();
     }
 
     /**
@@ -31,7 +32,6 @@ public class SongService {
         return Song.builder()
                 .code("1")
                 .songName("La PI canción")
-                .album(null)
                 .time("74") // Tiempo en segundos
                 .url("https://www.youtube.com/watch?v=3HRkKznJoZA&ab_channel=AsapSCIENCE")
                 .genre(Song.Genre.POP)
@@ -44,17 +44,23 @@ public class SongService {
      *
      * @param song the Song object to be saved
      */
-    public void saveSong(Song song) {
-        lsrService.guardarCancion(song);
-        System.out.println("Song saved: " + song.getSongName());
+    /**
+     * Adds a song to an author's list of songs.
+     *
+     * @param author the name of the author
+     * @param song the Song object to be added
+     * @throws RuntimeException if the author is not found
+     */
+    public void addSongToAuthor(String author, Song song) {
+        try {
+            services.addSongToAuthor(author, song);
+            songRepository.save(song);
+        } catch (AuthorException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    /**
-     * Deletes a song from the LSR service.
-     *
-     * @param song the Song object to be deleted
-     */
-    public void deleteSong(Song song) {
-        // Implementation needed
+    public void sendSongsToLsr(){
+        services.recibirCanciones(songRepository.findAll());
     }
 }
