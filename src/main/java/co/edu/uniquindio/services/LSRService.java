@@ -92,7 +92,8 @@ public class LSRService {
      * @return an ArrayList of Song objects liked by the user
      */
     public ArrayList<Song> likearCancion(String song) {
-        Song song1 = new Song();
+        Song song1 = lsr.buscarCancion(song);
+        System.out.println("Canción encontrada: " + song1.toString());
         return lsr.addSongToUser(song1);
     }
 

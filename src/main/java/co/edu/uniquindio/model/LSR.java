@@ -144,44 +144,17 @@ public class LSR extends Persistence {
         return canciones;
     }
 
-
-    //TODO: Fix this. Includes remaking Song and Album
-/*
-    public void sortSongsByAttribute(ComparatorAttribute attribute){
-        this.currentUser.getSongs().sort();
-        Comparator<Song> comparator = null;
-        switch (attribute){
-            case NAME -> {
-                comparator = (s1, s2) -> s1.getSongName().compareToIgnoreCase(s2.getSongName());
-            }
-            case ALBUM_NAME -> {
-                comparator = (s1, s2) -> s1.getAlbumName().compareToIgnoreCase(s2.getAlbumName());
-            }
-            case COVER -> {
-                comparator = (s1, s2) -> s1.getCover().compareToIgnoreCase(s2.getCover());
-            }
-            case YEAR -> {
-                comparator = Comparator.comparing(Song::getYear);
-            }
-            case DURATION -> {
-                comparator = Comparator.comparing(Song::getDuration);
-            }
-            case GENRE -> {
-                comparator = Comparator.comparing(Song::getGenre);
-            }
-            case ARTIST_NAME -> {
-                comparator = (s1, s2) -> s1.getArtistName().compareToIgnoreCase(s2.getArtistName());
+    public Song buscarCancion(String song) {
+        ArrayList <Song> canciones = getListSongs();
+        for(Song s : canciones){
+            if(s.getSongName().equals(song)){
+                return s;
             }
         }
-        if(comparator!=null) this.currentUser.getLstSongs().sort(comparator);
+        return null;
     }
 
- */
 
- /*   public Song searchSongByCode(String code){
-        for(Song s : getLstSongs())
-            if(s.getCode().equals(code))
-                return s;
-        return null;
-    }*/
+
+
 }

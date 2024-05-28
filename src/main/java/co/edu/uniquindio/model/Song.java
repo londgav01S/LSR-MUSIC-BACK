@@ -24,6 +24,7 @@ public class Song extends Persistence implements Comparable<Song> {
     @Include
     private String code;
     private String songName;
+    private String photoURL;
 
     @ManyToOne
     private Album album;
