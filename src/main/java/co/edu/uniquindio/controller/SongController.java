@@ -17,22 +17,17 @@ public class SongController {
     }
 
 
-    @GetMapping
-    @CrossOrigin(origins = "http://localhost:3000")
-    public Song getSong() {
-       return songService.createSong();
-    }
-
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public void receiveSong(@RequestBody Song song) {
-        songService.saveSong(song);
+    public void receiveSong(@RequestBody Song song){}
+
+
+    @PostMapping("/addSongToAuthor")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void addSongToAuthor(@RequestParam String author, @RequestBody Song song){
+        System.out.println("recibiendo cancion: "+ song.toString());
+        songService.addSongToAuthor(author,song);
     }
 
-    @PostMapping("/delete")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public void deleteSong(@RequestBody Song song) {
-        songService.deleteSong(song);
-    }
 
 }

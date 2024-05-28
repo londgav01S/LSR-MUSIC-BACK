@@ -1,5 +1,6 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.LsrRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Exceptions.UsuarioException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to manage LSR-related operations.
@@ -18,13 +20,17 @@ import java.util.ArrayList;
 public class LSRService {
     private final LSR lsr;
 
+    private final LsrRepository lsrRepository;
+
     /**
      * Constructor to initialize the LSR instance and add a default user with a song.
      */
-    public LSRService() {
+    @Autowired
+    public LSRService(LsrRepository lsrRepository) {
+        this.lsrRepository = lsrRepository;
         lsr = LSR.getInstance();
 
-        Song song = Song.builder()
+        /*Song song = Song.builder()
                 .code("1")
                 .songName("La PI canción")
                 .album(null)
@@ -32,18 +38,7 @@ public class LSRService {
                 .url("https://www.youtube.com/watch?v=3HRkKznJoZA&ab_channel=AsapSCIENCE")
                 .genre(Song.Genre.POP)
                 .author(null)
-                .build();
-        User user = User.builder()
-                .username("admin")
-                .password("admin")
-                .mail("admin@example.com")
-                .build();
-        user.addSong(song);
-        try {
-            lsr.addUser(user);
-        } catch (UsuarioException e) {
-            throw new RuntimeException(e);
-        }
+                .build();*/
     }
 
     /**
@@ -76,6 +71,11 @@ public class LSRService {
         }
     }
 
+
+    public LSR almacenarLSR(LSR lsr) {
+        return lsrRepository.save(lsr);
+    }
+
     /**
      * Placeholder method to save a song (implementation needed).
      *
@@ -91,8 +91,10 @@ public class LSRService {
      * @param song the Song object to be liked
      * @return an ArrayList of Song objects liked by the user
      */
-    public ArrayList<Song> likearCancion(Song song) {
-        return lsr.addSongToUser(song);
+    public ArrayList<Song> likearCancion(String song) {
+        Song song1 = lsr.buscarCancion(song);
+        System.out.println("Canción encontrada: " + song1.toString());
+        return lsr.addSongToUser(song1);
     }
 
     /**
@@ -123,28 +125,7 @@ public class LSRService {
         return lsr.getLstAuthorsAsList();
     }
 
-    /**
-     * Adds a song to an author's list of songs.
-     *
-     * @param author the name of the author
-     * @param song the Song object to be added
-     * @throws AuthorException if the author is not found
-     */
-    public void addSongToAuthor(String author, Song song) throws AuthorException {
-        Author aux = null;
-        for (Author a : lsr.getLstAuthorsAsList()) {
-            if (a.getName().equals(author)) {
-                aux = a;
-            }
-        }
-        if (aux != null) {
-            song.setAuthor(aux.getName());
-            aux.addSong(song);
-            System.out.println("Se guardó: " + song.toString() + aux.toString());
-        } else {
-            throw new AuthorException("Autor no encontrado.");
-        }
-    }
+
 
     /**
      * Retrieves the list of songs.
@@ -153,5 +134,77 @@ public class LSRService {
      */
     public ArrayList<Song> getSongs() {
         return lsr.getListSongs();
+    }
+
+    public ArrayList<Song> searchSongsOR(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarOR(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsAND(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarAND(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsANDOR(String query) {
+        ArrayList<Song> result = new ArrayList<Song>();
+        String [] words = query.split(" ");
+        Thread t1 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarAND(words)){
+                    result.add(s);
+                }
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarOR(words)){
+                    result.add(s);
+                }
+            }
+        });
+        return result;
+    }
+
+    public void recibirUsuarios(List<User> all) {
+        for (User user : all) {
+            try {
+                lsr.addUser(user);
+            } catch (UsuarioException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void recibirarAutor(List<Author> all) {
+        for (Author author : all) {
+            lsr.getLstAuthors().insert(author);
+        }
+    }
+
+    public void recibirCanciones(List<Song> all) {
+        for (Song song : all) {
+            lsr.linkSongToAuthor(song.getAuthor(), song);
+        }
+    }
+
+    public void addSongToAuthor(String author, Song song) {
+        try {
+            lsr.addSongToAuthor(author, song);
+        } catch (AuthorException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

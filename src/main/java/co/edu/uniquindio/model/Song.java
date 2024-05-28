@@ -24,9 +24,8 @@ public class Song extends Persistence implements Comparable<Song> {
     @Include
     private String code;
     private String songName;
+    private String photoURL;
 
-    @ManyToOne
-    private Album album;
     //The time is going to be handle in Seconds
     private String time;
     private String url;
@@ -116,24 +115,40 @@ public class Song extends Persistence implements Comparable<Song> {
 
     public Song() {}
 
-    public boolean hasOMatches(Object [] o2){
-        Object[] o1 = {songName, album, time, genre, author};
-        if(o2==null) return false;
-        for(int i=0; i<o1.length; i++){
-            if(o2[i]!=null &&o1[i].equals(o2[i])) return true;
-        }
-        return false;
+
+    public boolean verficarOR(String[] words) {
+        if(verificarName(words) || verificarArtista(words) || verificarGenero(words)) return true;
+        else return false;
     }
 
-    public boolean hasYMatches(Object [] o2){
-        Object[] o1 = {songName, album, time, genre, author};
-        if(o2==null) return false;
-        for(int i=0; i<o1.length; i++){
-            if(o2[i]!=null && !o1[i].equals(o2[i])) return false;
+    private boolean verificarGenero(String[] words) {
+        boolean result = false;
+        for(String word : words){
+            if(genre.getValue().toLowerCase().contains(word.toLowerCase())) result = true;
         }
-        return true;
+        return result;
     }
 
+    private boolean verificarArtista(String[] words) {
+        boolean flag = false;
+        for(String word : words){
+            if(author.toLowerCase().contains(word.toLowerCase())) flag = true;
+        }
+        return flag;
+    }
+
+    private boolean verificarName(String[] words) {
+        boolean flag = false;
+        for (String word : words) {
+            if (songName.toLowerCase().contains(word.toLowerCase())) flag = true;
+        }
+        return flag;
+    }
+
+    public boolean verficarAND(String[] words) {
+        if(verificarName(words) && verificarArtista(words) && verificarGenero(words)) return true;
+        else return false;
+    }
 
     @Getter
     public enum Genre {
@@ -155,22 +170,6 @@ public class Song extends Persistence implements Comparable<Song> {
             return null;
         }
 
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getSongName() {
-        return songName;
-    }
-
-    public void setSongName(String songName) {
-        this.songName = songName;
     }
 
     @Override

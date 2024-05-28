@@ -26,7 +26,7 @@ public class User extends Persistence {
     private String mail;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Song> songs = new ArrayList<>();  // Persisted as a List
 
     @Transient

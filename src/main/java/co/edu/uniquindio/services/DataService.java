@@ -10,19 +10,26 @@ import java.util.ArrayList;
 
 @Service
 public class DataService {
-    private final LSRService lsrService;
 
-    @Autowired
-    public DataService(LSRService lsrService) {
-        this.lsrService = lsrService;
-    }
-
+    private static Services services= Services.getInstance();
 
     public ArrayList<Author> getAuthors() {
-        return lsrService.getAuthors();
+        return services.getAuthors();
     }
 
     public ArrayList<Song> getSongs() {
-        return lsrService.getSongs();
+        return services.getSongs();
+    }
+
+    public ArrayList<Song> searchSongsOR(String query) {
+        return services.searchSongsOR(query);
+    }
+
+    public ArrayList<Song> searchSongsAND(String query) {
+        return services.searchSongsAND(query);
+    }
+
+    public ArrayList<Song> searchSongsANDOR(String query) {
+        return services.searchSongsANDOR(query);
     }
 }

@@ -1,40 +1,31 @@
 package co.edu.uniquindio.services;
 
+import co.edu.uniquindio.Repositories.AuthorRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Service class to manage author-related operations.
  */
 @Service
 public class AuthorService {
-    private final LSRService lsrService;
+    private final AuthorRepository authorRepository;
 
-    /**
-     * Constructor to initialize the AuthorService with a reference to the LSRService.
-     *
-     * @param lsrService the LSRService used to interact with the LSR model
-     */
+    private static Services services= Services.getInstance();
+
+
     @Autowired
-    public AuthorService(LSRService lsrService) {
-        this.lsrService = lsrService;
+    public AuthorService(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+        agregarAutorToLsr();
     }
 
-    /**
-     * Creates a default author for demonstration purposes.
-     */
-    public void crearAutor() {
-        Author author = Author.builder()
-                .code("1")
-                .name("Juanes")
-                .nationality("")
-                .isGroup(false)
-                .build();
-        // Additional logic can be added here to save the author if needed
-    }
 
     /**
      * Creates a new author and saves it using the LSRService.
@@ -46,27 +37,28 @@ public class AuthorService {
      */
     public void createAuthor(String name, String nationality, Boolean isGroup, String photo) {
         Author author = Author.builder()
-                .code(lsrService.generateAuthorCode())
+                .code(services.generateAuthorCode())
                 .name(name)
                 .nationality(nationality)
                 .isGroup(isGroup)
                 .photo(photo)
                 .build();
-        lsrService.create(author);
+        authorRepository.save(author);
+        services.create(author);
     }
 
+
+
     /**
-     * Adds a song to an author's list of songs.
+     * Retrieves the list of authors.
      *
-     * @param author the name of the author
-     * @param song the Song object to be added
-     * @throws RuntimeException if the author is not found
+     * @return an ArrayList of Author objects
      */
-    public void addSongToAuthor(String author, Song song) {
-        try {
-            lsrService.addSongToAuthor(author, song);
-        } catch (AuthorException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Author> getAuthors() {
+        return authorRepository.findAll() ;
+    }
+
+    public void agregarAutorToLsr(){
+        services.recibirarAutor(getAuthors());
     }
 }

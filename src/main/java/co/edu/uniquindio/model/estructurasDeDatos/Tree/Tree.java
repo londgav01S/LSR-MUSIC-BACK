@@ -52,4 +52,7 @@ public interface Tree<T> extends Iterable<T> {
      */
     @Override
     java.util.Iterator<T> iterator();
+
+
+    int size();
 }
