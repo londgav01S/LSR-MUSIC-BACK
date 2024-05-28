@@ -29,18 +29,6 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    /**
-     * Creates a default author for demonstration purposes.
-     */
-    public void crearAutor() {
-        Author author = Author.builder()
-                .code("1")
-                .name("Juanes")
-                .nationality("")
-                .isGroup(false)
-                .build();
-        // Additional logic can be added here to save the author if needed
-    }
 
     /**
      * Creates a new author and saves it using the LSRService.

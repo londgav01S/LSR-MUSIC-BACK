@@ -1,6 +1,5 @@
 package co.edu.uniquindio.services;
 
-import co.edu.uniquindio.Repositories.LsrRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Exceptions.UsuarioException;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service class to manage LSR-related operations.
@@ -19,9 +17,6 @@ import java.util.List;
 @Service
 public class LSRService {
     private final LSR lsr;
-
-    private final LsrRepository lsrRepository;
-
 
     /**
      * Constructor to initialize the LSR instance and add a default user with a song.
@@ -41,8 +36,6 @@ public class LSRService {
                 .author(null)
                 .build();*/
     }
-
-
 
     /**
      * Saves a user to the LSR instance.
@@ -151,9 +144,6 @@ public class LSRService {
         }
     }
 
-
-
-
     /**
      * Retrieves the list of songs.
      *
@@ -161,6 +151,48 @@ public class LSRService {
      */
     public ArrayList<Song> getSongs() {
         return lsr.getListSongs();
+    }
+
+    public ArrayList<Song> searchSongsOR(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarOR(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsAND(String query) {
+        String [] words = query.split(" ");
+        ArrayList<Song> result = new ArrayList<Song>();
+        for (Song s: lsr.getListSongs()){
+            if(s.verficarAND(words)){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongsANDOR(String query) {
+        ArrayList<Song> result = new ArrayList<Song>();
+        String [] words = query.split(" ");
+        Thread t1 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarAND(words)){
+                    result.add(s);
+                }
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            for (Song s: lsr.getListSongs()){
+                if(s.verficarOR(words)){
+                    result.add(s);
+                }
+            }
+        });
+        return result;
     }
 
     public void recibirUsuarios(List<User> all) {

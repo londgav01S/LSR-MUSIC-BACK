@@ -57,6 +57,39 @@ public class Song extends Persistence implements Comparable<Song> {
         return true;
     }
 
+    public boolean verficarOR(String[] words) {
+        if(verificarName(words) || verificarArtista(words) || verificarGenero(words)) return true;
+        else return false;
+    }
+
+    private boolean verificarGenero(String[] words) {
+        boolean result = false;
+        for(String word : words){
+            if(genre.getValue().toLowerCase().contains(word.toLowerCase())) result = true;
+        }
+        return result;
+    }
+
+    private boolean verificarArtista(String[] words) {
+        boolean flag = false;
+        for(String word : words){
+            if(author.toLowerCase().contains(word.toLowerCase())) flag = true;
+        }
+        return flag;
+    }
+
+    private boolean verificarName(String[] words) {
+        boolean flag = false;
+        for (String word : words) {
+            if (songName.toLowerCase().contains(word.toLowerCase())) flag = true;
+        }
+        return flag;
+    }
+
+    public boolean verficarAND(String[] words) {
+        if(verificarName(words) && verificarArtista(words) && verificarGenero(words)) return true;
+        else return false;
+    }
 
     @Getter
     public enum Genre {
@@ -78,22 +111,6 @@ public class Song extends Persistence implements Comparable<Song> {
             return null;
         }
 
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getSongName() {
-        return songName;
-    }
-
-    public void setSongName(String songName) {
-        this.songName = songName;
     }
 
     @Override
