@@ -20,6 +20,11 @@ public class AuthorService {
     private static Services services= Services.getInstance();
 
 
+    /**
+     * Constructor que inyecta la instancia de authorRepository
+     * y tambien manda todos los artistas de la db.
+     * @param authorRepository
+     */
     @Autowired
     public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
@@ -58,6 +63,10 @@ public class AuthorService {
         return authorRepository.findAll() ;
     }
 
+
+    /**
+     * Metodo que va a enviar todos los artistas que hay en la base de datos.
+     */
     public void agregarAutorToLsr(){
         services.recibirarAutor(getAuthors());
     }

@@ -32,8 +32,6 @@ public class Song extends Persistence implements Comparable<Song> {
     private Genre genre;
     private String author;
 
-    @ManyToOne
-    private User user;
 
     public Song() {}
 
@@ -68,8 +66,10 @@ public class Song extends Persistence implements Comparable<Song> {
     }
 
     public boolean verficarAND(String[] words) {
-        if(verificarName(words) && verificarArtista(words) && verificarGenero(words)) return true;
-        else return false;
+        return (verificarName(words) && verificarArtista(words) && verificarGenero(words)) ||
+                ((verificarName(words) && verificarArtista(words)) ||
+                        (verificarName(words) && verificarGenero(words)) ||
+                        (verificarArtista(words) && verificarGenero(words)));
     }
 
     @Getter

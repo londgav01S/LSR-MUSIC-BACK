@@ -64,9 +64,13 @@ public class SongService {
         }
     }
 
+    /**
+     * Metodo que le va a enviar todas las canciones del db a Services
+     */
     public void sendSongsToLsr(){
         services.recibirCanciones(songRepository.findAll());
     }
+
 
 
 }

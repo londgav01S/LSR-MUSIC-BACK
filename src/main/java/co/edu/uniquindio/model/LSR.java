@@ -1,6 +1,5 @@
 package co.edu.uniquindio.model;
 
-//TODO: revisar el por que el tree no funciona
 
 
 import co.edu.uniquindio.model.Exceptions.AuthorException;
@@ -43,12 +42,18 @@ public class LSR extends Persistence {
     @Transient
     private User currentUser;
 
+    /**
+     * Constructor
+     */
     public LSR() {
         this.lstAuthors = new BinaryTree<Author>();
         this.lstUsers = new java.util.HashMap<>();
     }
 
-
+    /**
+     * Metodo para retornar la UNICA instancia del LSR
+     * @return UNICA instancia de LSR
+     */
     public static synchronized LSR getInstance() {
         if (instance == null) {
             instance = new LSR();
@@ -56,46 +61,22 @@ public class LSR extends Persistence {
         return instance;
     }
 
+    /**
+     * Metodo que va a logear al usuario
+     * @param username del usuario que intenta logear
+     * @param password del usuario que intenta logear
+     */
     public void login(String username, String password) {
         this.currentUser = lstUsers.getOrDefault(username, null);
         System.out.println("Usuario actual: " + currentUser.toString());
     }
 
 
-    //TODO: revisar
-    /*public LinkedList<Song> getUserSongs() {
-        return currentUser.getSongs();
-    }*/
-
-/*
-    public LinkedList<Song> getArtistSongs(String name){
-        return lstAuthors.find(createAuxArtist(name)).getSongs();
-    }
-*/
-    //TODO: Finish this.
-    /*
-    public LinkedList<Song> searchO(String name, String albumName, String cover, Integer year, LocalTime duration, Song.Genre genre, String artistName){
-        Object[] o2 = {name, albumName, cover, year, duration, genre, artistName};
-        LinkedList<Song> list = new SimpleList<>();
-
-        for(Song s : getLstSongs()) if(s.hasOMatches(o2)) list.addTail(s);
-        return list;
-    }
-
-    public LinkedList<Song> searchY(String name, String albumName, String cover, Integer year, LocalTime duration, Song.Genre genre, String artistName){
-        Object[] o2 = {name, albumName, cover, year, duration, genre, artistName};
-        LinkedList<Song> list = new SimpleList<>();
-
-        for(Song s : getLstSongs()) if(s.hasYMatches(o2)) list.addTail(s);
-        return list;
-    }
-*/
-/*
-    public void addArtist(Author artist) {
-        lstAuthors.insert(artist);
-    }
-*/
-
+    /**
+     * El metodo nos agrega un usuario a un Map llamada lstUsers
+     * @param user
+     * @throws UsuarioException
+     */
     public void addUser(User user) throws UsuarioException {
         if (lstUsers.containsKey(user.getUsername())){
             throw new UsuarioException("El usuario ya existe");
@@ -105,12 +86,15 @@ public class LSR extends Persistence {
         }
     }
 
-/*
-    public void addSongToArtist(String name, Song song) {
-        lstAuthors.find(createAuxArtist(name)).addSong(song);
-    }
-*/
 
+
+    /**
+     * Metodo el cual agrega una cancion a un respectivo usuario,
+     * ya que a cada usuario le corresponde una lista de canciones
+     * @param song
+     * @return List <Song> </Song>
+     * @throws UsuarioException
+     */
     public List<Song> addSongToUser(Song song) throws UsuarioException {
         System.out.println(currentUser.getListofSongs().size());
         if(currentUser.getListofSongs().indexOf(song) >0){
@@ -122,6 +106,11 @@ public class LSR extends Persistence {
         return currentUser.getListofSongs();
     }
 
+    /**
+     * crea una instancia de la clase Author utilizando el patrón de diseño Builder
+     * @param name
+     * @return Author
+     */
     private Author createAuxArtist(String name) {
         return Author.builder().name(name).build();
     }
@@ -149,10 +138,22 @@ public class LSR extends Persistence {
         }
     }
 
+
+    /**
+     * Metodo que busca una canción dado su codigo
+     * @param code
+     * @return Song
+     */
     public Song searchSongByCode(String code) {
         return null;
     }
 
+
+    /**
+     * Metodo encargado de recorrer un arbol y pasar todos sus datos a un ArrayLList
+     * para asi poder guardar en base de datos
+     * @return ArrayList <Author> </Author>
+     */
     public ArrayList<Author> getLstAuthorsAsList() {
         ArrayList<Author> authorList = new ArrayList<>();
         for (Author author : lstAuthors) {
@@ -161,6 +162,10 @@ public class LSR extends Persistence {
         return authorList;
     }
 
+    /**
+     *
+     * @return ArrayList<Song>
+     */
     public ArrayList<Song> getListSongs() {
         ArrayList<Song> canciones = new ArrayList<>();
         for(Author a: getLstAuthorsAsList()){
@@ -171,6 +176,11 @@ public class LSR extends Persistence {
         return canciones;
     }
 
+    /**
+     * Recorre la lista de canciones y devuelve la cancion que coincida con el nombre dado
+     * @param song
+     * @return Song
+     */
     public Song buscarCancion(String song) {
         ArrayList <Song> canciones = getListSongs();
         for(Song s : canciones){
@@ -181,6 +191,11 @@ public class LSR extends Persistence {
         return null;
     }
 
+    /**
+     * Agrega a una lista de author los que vayan pasando el filtro de busqueda
+     * @param author
+     * @param song
+     */
     public void linkSongToAuthor(String author, Song song) {
         for(Author a : getLstAuthorsAsList()){
             if(a.getName().equals(author)){

@@ -40,6 +40,9 @@ public class Author extends Persistence implements Comparable<Author>{
     @Transient
     private DoubleLinkedList<Song> songs;
 
+
+
+
     @Builder
     public Author(String code, String name, String nationality, Boolean isGroup, String photo) {
         this.code = code;
@@ -58,13 +61,20 @@ public class Author extends Persistence implements Comparable<Author>{
         return o.name.compareTo(this.name);
     }
 
-
+    /**
+     *Metodo que agrag una canción a una lista (listSongs)
+     */
     public void addSong(Song song) {
         Objects.requireNonNull(song);
         songs.addTail(song);
         listSongs.add(song);
     }
 
+
+    /**
+     *Metodo que recorre una lista de canciones y verifica si una canción específica está presente en la lista
+     *@return Devuelve true si la canción está en la lista y false si no lo está.
+     */
     private boolean verifySong(Song song) {
         for (Song eachSong : songs) {
             if (eachSong.equals(song)) {
@@ -83,6 +93,11 @@ public class Author extends Persistence implements Comparable<Author>{
         this.name = name;
     }
 
+
+
+    /**
+     *Metodo que inicializa una DoubleLinkedList y con su anotación con la cual conecta e metodo con Postman
+     */
     @PostLoad
     private void initializeDoubleLinkedList() {
         if (this.songs == null) {

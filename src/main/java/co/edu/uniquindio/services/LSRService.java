@@ -72,6 +72,11 @@ public class LSRService {
     }
 
 
+    /**
+     * Metodo que obtiene el LSR de la base de datos.
+     * @param lsr
+     * @return LSR
+     */
     public LSR almacenarLSR(LSR lsr) {
         return lsrRepository.save(lsr);
     }
@@ -136,6 +141,11 @@ public class LSRService {
         return lsr.getListSongs();
     }
 
+    /**
+     * Lógica para el metodo que busca canciones por medio de comparador OR
+     * @param query parametros de busqueda
+     * @return las canciones que cumplen el criterio.
+     */
     public ArrayList<Song> searchSongsOR(String query) {
         String [] words = query.split(" ");
         ArrayList<Song> result = new ArrayList<Song>();
@@ -147,6 +157,11 @@ public class LSRService {
         return result;
     }
 
+    /**
+     * Lógica para el metodo que busca canciones por medio de comparador AND
+     * @param query parametros de busqueda
+     * @return las canciones que cumplen el criterio.
+     */
     public ArrayList<Song> searchSongsAND(String query) {
         String [] words = query.split(" ");
         ArrayList<Song> result = new ArrayList<Song>();
@@ -158,6 +173,11 @@ public class LSRService {
         return result;
     }
 
+    /**
+     * Lógica para el metodo que busca canciones por medio de comparador AND Y OR
+     * @param query parametros de busqueda
+     * @return las canciones que cumplen el criterio.
+     */
     public ArrayList<Song> searchSongsANDOR(String query) {
         ArrayList<Song> result = new ArrayList<Song>();
         String [] words = query.split(" ");
@@ -175,9 +195,23 @@ public class LSRService {
                 }
             }
         });
+        t1.start();
+        t2.start();
+        try{
+            t1.join();
+            t2.join();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
         return result;
     }
 
+    /**
+     * recorre la lista de usuarios y los agrega a la lista perteneciente a
+     * la clase lsr (principal)
+     * @param all
+     */
     public void recibirUsuarios(List<User> all) {
         for (User user : all) {
             try {
@@ -188,18 +222,31 @@ public class LSRService {
         }
     }
 
+    /**
+     * Recorre los authores y los agrega a la lista de authores de la clase lsr (principal)
+     * @param all
+     */
     public void recibirarAutor(List<Author> all) {
         for (Author author : all) {
             lsr.getLstAuthors().insert(author);
         }
     }
 
+    /**
+     * Metodo que va a recibir TODAS las canciones de la db para vincularlas a los artistas
+     * @param all Songs from db
+     */
     public void recibirCanciones(List<Song> all) {
         for (Song song : all) {
             lsr.linkSongToAuthor(song.getAuthor(), song);
         }
     }
 
+    /**
+     * Metodo de lógica para revincular los artistas a sus canciones.
+     * @param author dueño de la cancion
+     * @param song cancion
+     */
     public void addSongToAuthor(String author, Song song) {
         try {
             lsr.addSongToAuthor(author, song);
@@ -208,6 +255,10 @@ public class LSRService {
         }
     }
 
+    /**
+     * Metodo utilizado para obtener la instancia del usuario que está logeado
+     * @return UserLogged
+     */
     public User obtenerUsuarioLog() {
         return lsr.getCurrentUser();
     }

@@ -26,7 +26,8 @@ public class User extends Persistence {
     private String mail;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id") // This creates a foreign key in the Song table
     private List<Song> songs = new ArrayList<>();  // Persisted as a List
 
     @Transient

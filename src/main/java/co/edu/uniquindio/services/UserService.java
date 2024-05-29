@@ -20,7 +20,11 @@ public class UserService {
 
     private static Services services= Services.getInstance();
 
-
+    /**
+     * Constructor que inyecta la instancia de Userrepository
+     * Envia todos los usuarios de la db.
+     * @param userRepository
+     */
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
