@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -20,7 +21,7 @@ public class UserController {
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ArrayList<Song> getUsers(@RequestParam String username, @RequestParam String password) {
+    public List<Song> getUsers(@RequestParam String username, @RequestParam String password) {
         return userService.obtenerCancionesUsuarios(username, password);
     }
 
@@ -32,8 +33,8 @@ public class UserController {
 
     @GetMapping("/likear")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ArrayList<Song> likeSong(@RequestParam String song) {
-        System.out.println(song);
+    public List<Song> likeSong(@RequestParam String song) {
+        System.out.println(song );
         return userService.likearCancion(song);
     }
 }

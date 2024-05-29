@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +38,7 @@ class LSRTest {
     }
 
     @Test
-    void addSongToUser() {
+    void addSongToUser() throws UsuarioException {
         User user = new User();
         user.setUsername("John Doe");
         Song song = new Song();
@@ -47,7 +48,7 @@ class LSRTest {
 
         lsr.login(user.getUsername(), "password");
 
-        ArrayList<Song> songs = lsr.addSongToUser(song);
+        List<Song> songs = lsr.addSongToUser(song);
         assertTrue(songs.contains(song));
         assertEquals(1, songs.size());
         assertEquals(song, songs.get(0));

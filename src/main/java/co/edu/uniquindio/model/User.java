@@ -56,8 +56,8 @@ public class User extends Persistence {
         this.username = username;
     }
 
-    public ArrayList<Song> getListofSongs(){
-        return new ArrayList<>(songs);
+    public List<Song> getListofSongs(){
+        return songs;
     }
 
     public void addSong(Song song) {

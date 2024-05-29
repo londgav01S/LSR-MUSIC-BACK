@@ -3,8 +3,12 @@ package co.edu.uniquindio.services;
 import co.edu.uniquindio.Repositories.SongRepository;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
 import co.edu.uniquindio.model.Song;
+import co.edu.uniquindio.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class to manage song-related operations.
@@ -63,4 +67,6 @@ public class SongService {
     public void sendSongsToLsr(){
         services.recibirCanciones(songRepository.findAll());
     }
+
+
 }

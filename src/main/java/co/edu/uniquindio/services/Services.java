@@ -4,6 +4,7 @@ import co.edu.uniquindio.Repositories.AuthorRepository;
 import co.edu.uniquindio.Repositories.LsrRepository;
 import co.edu.uniquindio.model.Author;
 import co.edu.uniquindio.model.Exceptions.AuthorException;
+import co.edu.uniquindio.model.Exceptions.UsuarioException;
 import co.edu.uniquindio.model.Song;
 import co.edu.uniquindio.model.User;
 import lombok.Getter;
@@ -46,8 +47,12 @@ public class Services {
         lsrService.guardarUsuario(user);
     }
 
-    public ArrayList<Song> likearCancion(String song) {
-        return lsrService.likearCancion(song);
+    public List<Song> likearCancion(String song) {
+        try {
+            return lsrService.likearCancion(song);
+        } catch (UsuarioException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void recibirUsuarios(List<User> users) {
@@ -93,5 +98,9 @@ public class Services {
 
     public ArrayList<Song> searchSongsANDOR(String query) {
         return lsrService.searchSongsANDOR(query);
+    }
+
+    public User obtenerUsuarioLog() {
+        return lsrService.obtenerUsuarioLog();
     }
 }

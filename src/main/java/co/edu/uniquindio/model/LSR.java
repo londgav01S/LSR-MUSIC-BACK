@@ -16,6 +16,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -39,7 +40,7 @@ public class LSR extends Persistence {
     @MapKey(name = "username")
     private Map<String, User> lstUsers;
 
-    @ManyToOne
+    @Transient
     private User currentUser;
 
     public LSR() {
@@ -110,8 +111,13 @@ public class LSR extends Persistence {
     }
 */
 
-    public ArrayList<Song> addSongToUser(Song song){
-        currentUser.addSong(song);
+    public List<Song> addSongToUser(Song song) throws UsuarioException {
+        System.out.println(currentUser.getListofSongs().size());
+        if(currentUser.getListofSongs().indexOf(song) >0){
+            throw new UsuarioException("La cancion ya existe");
+        }else{
+            currentUser.addSong(song);
+        }
 
         return currentUser.getListofSongs();
     }

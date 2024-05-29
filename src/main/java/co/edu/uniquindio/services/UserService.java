@@ -34,7 +34,7 @@ public class UserService {
      * @param contrasena the password of the user
      * @return an ArrayList of Song objects associated with the user
      */
-    public ArrayList<Song> obtenerCancionesUsuarios(String usuario, String contrasena) {
+    public List<Song> obtenerCancionesUsuarios(String usuario, String contrasena) {
         User user = services.obtenerUsuario(usuario, contrasena);
         return user.getListofSongs();
     }
@@ -62,8 +62,10 @@ public class UserService {
      * @param song the song to be liked
      * @return an ArrayList of Song objects liked by the user
      */
-    public ArrayList<Song> likearCancion(String song) {
-        return services.likearCancion(song);
+    public List<Song> likearCancion(String song) {
+        List<Song> songs = services.likearCancion(song);
+        userRepository.save(services.obtenerUsuarioLog());
+        return songs;
     }
 
 

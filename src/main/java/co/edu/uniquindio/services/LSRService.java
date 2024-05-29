@@ -91,7 +91,7 @@ public class LSRService {
      * @param song the Song object to be liked
      * @return an ArrayList of Song objects liked by the user
      */
-    public ArrayList<Song> likearCancion(String song) {
+    public List<Song> likearCancion(String song) throws UsuarioException {
         Song song1 = lsr.buscarCancion(song);
         System.out.println("Canción encontrada: " + song1.toString());
         return lsr.addSongToUser(song1);
@@ -206,5 +206,9 @@ public class LSRService {
         } catch (AuthorException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public User obtenerUsuarioLog() {
+        return lsr.getCurrentUser();
     }
 }
